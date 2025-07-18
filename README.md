@@ -9,6 +9,8 @@
    npm install
    ```
 2. 配置环境变量，复制 `.env.local` 并填写你的 Pusher 信息
+Pusher的信息从 https://pusher.com/ 获取
+
 3. 启动开发环境
    ```bash
    npm run dev

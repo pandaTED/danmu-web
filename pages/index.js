@@ -7,6 +7,7 @@ export default function Home() {
   const [danmus, setDanmus] = useState([]);
   const [sending, setSending] = useState(false); // 发送冷却
   const inputRef = useRef(null);
+  const bottomRef = useRef(null); // 用于自动滚动到底部
 
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
@@ -30,6 +31,11 @@ export default function Home() {
       setDanmus((prev) => prev.filter((d) => Date.now() - d.time < 60000));
     }, 1000);
     return () => clearInterval(timer);
+  }, [danmus]);
+
+  // 自动滚动到底部
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [danmus]);
 
   const handleSend = async () => {
@@ -65,7 +71,9 @@ export default function Home() {
       fontFamily: "'Orbitron', 'Roboto', 'Arial', sans-serif",
       color: "#fff"
     }}>
+      {/* <h2>实时弹幕墙</h2> */}
       <DanmuList danmus={danmus} />
+      <div ref={bottomRef} />
       <div style={{
         position: "fixed",
         bottom: 0,
